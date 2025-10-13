@@ -1,13 +1,23 @@
+"use client";
 import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import {
-  WalletDisconnectButton,
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import dynamic from "next/dynamic";
+
+const WalletMultiButtonDynamic = dynamic(
+  async () =>
+    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  { ssr: false }
+);
+
+const WalletDisconnectButtonDynamic = dynamic(
+  async () =>
+    (await import("@solana/wallet-adapter-react-ui")).WalletDisconnectButton,
+  { ssr: false }
+);
 
 export default function WalletModalWrapper({
   children,
@@ -26,8 +36,8 @@ export default function WalletModalWrapper({
                 padding: 20,
               }}
             >
-              <WalletMultiButton />
-              <WalletDisconnectButton />
+              <WalletMultiButtonDynamic />
+              <WalletDisconnectButtonDynamic />
             </div>
             {children}
           </WalletModalProvider>
