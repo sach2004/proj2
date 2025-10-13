@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import EthModalWrapper from "./EthModalWrapper";
 import "./globals.css";
+import SessionProvider from "./SessionProvider";
+import WalletModalWrapper from "./WalletModalWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <WalletModalWrapper>
+          <EthModalWrapper>
+            <SessionProvider>{children}</SessionProvider>
+          </EthModalWrapper>
+        </WalletModalWrapper>
       </body>
     </html>
   );
