@@ -25,24 +25,23 @@ export default function WalletModalWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
-        <WalletProvider wallets={[]} autoConnect>
-          <WalletModalProvider>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: 20,
-              }}
-            >
-              <WalletMultiButtonDynamic />
-              <WalletDisconnectButtonDynamic />
-            </div>
-            {children}
-          </WalletModalProvider>
-        </WalletProvider>
-      </ConnectionProvider>
-    </div>
+    <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
+      <WalletProvider wallets={[]} autoConnect>
+        <WalletModalProvider>
+          <div className="min-h-screen flex flex-col">
+            <header className="border-b border-gray-200 dark:border-gray-800">
+              <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 className="text-xl font-semibold">Token Transfer dApp</h1>
+                <div className="flex gap-3">
+                  <WalletMultiButtonDynamic />
+                  <WalletDisconnectButtonDynamic />
+                </div>
+              </div>
+            </header>
+            <main className="flex-1">{children}</main>
+          </div>
+        </WalletModalProvider>
+      </WalletProvider>
+    </ConnectionProvider>
   );
 }
