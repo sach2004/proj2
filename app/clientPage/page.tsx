@@ -1,17 +1,32 @@
 "use client";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 import { useAccount, useBalance, useConnect, useDisconnect } from "wagmi";
 
 export default function Page() {
+  const { connection } = useConnection();
+  const wallet = useWallet();
   const [mounted, setMounted] = useState(false);
   const { connect, connectors } = useConnect();
   const { address } = useAccount();
   const { disconnect } = useDisconnect();
   const balance = useBalance({ address });
+  const [selectedValue, setSelectedValue] = useState("ETH");
+  const [dynamicAddress, setDynamicAddress] = useState("");
+
+ 
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (selectedValue === "ETH") {
+      setDynamicAddress(String(address));
+    } else if (selectedValue === "Solana") {
+      setDynamicAddress(String(wallet.publicKey));
+    }
+  }, [selectedValue, address, wallet.publicKey]);
 
   if (!mounted) {
     return (
@@ -73,11 +88,24 @@ export default function Page() {
             <label className="text-sm font-medium mb-2">Choose Token</label>
             <select
               name="Token"
+              onChange={(e) => {
+                setSelectedValue(e.target.value);
+              }}
               className="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-transparent"
             >
               <option value="ETH">ETH</option>
               <option value="Solana">Solana</option>
             </select>
+          </div>
+
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-2">Your Address</label>
+            <input
+              type="text"
+              value={dynamicAddress}
+              readOnly
+              className="px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-transparent"
+            />
           </div>
 
           <div className="flex flex-col">
