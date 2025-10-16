@@ -5,7 +5,7 @@ contract EthTransfer {
         address indexed from,
         address indexed to,
         uint256 amount,
-        uint256 timestap
+        uint256 timestamp
     );
 
     function sendEth(address payable _to) external payable {

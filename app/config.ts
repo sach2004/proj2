@@ -1,14 +1,16 @@
 import { createConfig, http } from "wagmi";
-import { base, mainnet } from "wagmi/chains";
+import { sepolia } from "wagmi/chains";
 import { injected, metaMask } from "wagmi/connectors";
 
-const projectId = "<WALLETCONNECT_PROJECT_ID>";
-
 export const config = createConfig({
-  chains: [mainnet, base],
+  chains: [sepolia],
   connectors: [injected(), metaMask()],
   transports: {
-    [mainnet.id]: http(),
-    [base.id]: http(),
+    [sepolia.id]: http("https://rpc.sepolia.org"),
   },
 });
+
+export const ETH_CONTRACT_ADDRESS =
+  "0xd9145CCE52D386f254917e481eB44e9943F39138" as const;
+export const SOL_PROGRAM_ID =
+  "E22sB56h9LWTRJmZRVEHHxGNwToGF4Laf9TrPe4etfpo" as const;
